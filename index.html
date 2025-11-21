@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Today Study Routine</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #1a1f3b, #030712 55%, #000000);
+      color: #e5e7eb;
+    }
+
+    .glow-orbit {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: conic-gradient(from 140deg, #22d3ee, #a855f7, #22c55e, #22d3ee);
+      filter: blur(32px);
+      opacity: 0.35;
+      z-index: -1;
+      animation: spin 16s linear infinite;
+    }
+
+    .glow-orbit.orbit-2 {
+      width: 360px;
+      height: 360px;
+      opacity: 0.22;
+      animation-duration: 26s;
+      animation-direction: reverse;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .card {
+      position: relative;
+      width: min(480px, 100%);
+      padding: 24px 22px 20px;
+      border-radius: 24px;
+      background:
+        linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.78)) padding-box,
+        linear-gradient(135deg, rgba(56,189,248,0.6), rgba(168,85,247,0.7)) border-box;
+      border: 1px solid transparent;
+      box-shadow:
+        0 0 32px rgba(8,47,73,0.9),
+        0 0 120px rgba(56,189,248,0.35);
+      backdrop-filter: blur(20px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: radial-gradient(circle at top, rgba(56,189,248,0.25), rgba(15,23,42,0.4));
+      color: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 10px #22c55e;
+    }
+
+    .sub {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sub span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sub-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #6b7280;
+    }
+
+    .date {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    .list {
+      margin-top: 4px;
+      border-radius: 16px;
+      padding: 10px 10px 8px;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.18), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(168,85,247,0.18), transparent 55%),
+                  rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.3);
+      max-height: 320px;
+      overflow-y: auto;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 6px;
+      border-radius: 12px;
+      transition: background 0.16s ease, transform 0.08s ease, box-shadow 0.16s ease;
+    }
+
+    .item:not(:last-child) {
+      border-bottom: 1px dashed rgba(55,65,81,0.7);
+    }
+
+    .item:hover {
+      background: rgba(15,23,42,0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(56,189,248,0.28);
+    }
+
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #22d3ee;
+      cursor: pointer;
+    }
+
+    .texts {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .subject {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .paper {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(94,234,212,0.7);
+      background: linear-gradient(135deg, rgba(34,197,235,0.16), rgba(16,185,129,0.16));
+      color: #a5f3fc;
+      white-space: nowrap;
+    }
+
+    .done .subject {
+      text-decoration: line-through;
+      color: #6b7280;
+    }
+
+    .done .paper {
+      color: #4b5563;
+    }
+
+    .offday {
+      padding: 28px 20px 18px;
+      text-align: center;
+    }
+
+    .offday-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .offday-sub {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+
+    .offday-chip {
+      display: inline-flex;
+      margin-top: 8px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        margin: 16px;
+        padding: 20px 16px 16px;
+        border-radius: 20px;
+      }
+      .title {
+        font-size: 1.05rem;
+      }
+      .sub {
+        font-size: 0.75rem;
+      }
+      .subject {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-orbit"></div>
+  <div class="glow-orbit orbit-2"></div>
+
+  <div class="card" id="card">
+    <div class="card-header">
+      <div class="title">Today Routine</div>
+      <div class="chip">
+        <span class="chip-dot"></span>
+        ACTIVE DAY
+      </div>
+    </div>
+    <div class="sub">
+      <span>
+        <span class="sub-label">Day</span>
+        <span id="dayName"></span>
+      </span>
+      <span>
+        <span class="sub-label">Date</span>
+        <span class="date" id="dateText"></span>
+      </span>
+    </div>
+    <div class="list" id="list"></div>
+  </div>
+
+  <script>
+    const schedule = {
+      Saturday: [
+        { subject: "Bangla", paper: "1st Paper" },
+        { subject: "English", paper: "1st Paper" },
+        { subject: "ICT", paper: "" },
+        { subject: "Civics & Good Governance", paper: "1st Paper" },
+        { subject: "Economics", paper: "1st Paper" },
+        { subject: "Islamic History & Culture", paper: "1st Paper" },
+        { subject: "Agriculture Studies", paper: "1st Paper" }
+      ],
+      Sunday: [
+        { subject: "Bangla", paper: "2nd Paper" },
+        { subject: "English", paper: "2nd Paper" },
+        
+        { subject: "Civics & Good Governance", paper: "2nd Paper" },
+        { subject: "Economics", paper: "1st Paper" },
+        { subject: "Islamic History & Culture", paper: "2nd Paper" },
+        { subject: "Agriculture Studies", paper: "2nd Paper" }
+      ],
+      Monday: [
+        { subject: "Bangla", paper: "1st Paper" },
+        { subject: "English", paper: "1st Paper" },
+        { subject: "ICT", paper: "" },
+        { subject: "Civics & Good Governance", paper: "1st Paper" },
+        { subject: "Economics", paper: "1st Paper" },
+        { subject: "Islamic History & Culture", paper: "1st Paper" },
+        { subject: "Agriculture Studies", paper: "1st Paper" }
+      ],
+      Tuesday: [
+        { subject: "Bangla", paper: "2nd Paper" },
+        { subject: "English", paper: "2nd Paper" },
+        
+        { subject: "Civics & Good Governance", paper: "1st Paper" },
+        { subject: "Economics", paper: "2nd Paper" },
+        { subject: "Islamic History & Culture", paper: "2nd Paper" },
+        { subject: "Agriculture Studies", paper: "2nd Paper" }
+      ],
+      Wednesday: [
+        { subject: "Bangla", paper: "1st Paper" },
+        { subject: "English", paper: "1st Paper" },
+        { subject: "ICT", paper: "" },
+        { subject: "Civics & Good Governance", paper: "1st Paper" },
+        { subject: "Economics", paper: "1st Paper" },
+        { subject: "Islamic History & Culture", paper: "1st Paper" },
+        { subject: "Agriculture Studies", paper: "1st Paper" }
+      ],
+      Thursday: [
+        { subject: "Bangla", paper: "2nd Paper" },
+        { subject: "English", paper: "2nd Paper" },
+        
+        { subject: "Civics & Good Governance", paper: "1st Paper" },
+        { subject: "Economics", paper: "2nd Paper" },
+        { subject: "Islamic History & Culture", paper: "2nd Paper" },
+        { subject: "Agriculture Studies", paper: "2nd Paper" }
+      ]
+      // Friday: off day
+    };
+
+    const dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+    const now = new Date();
+    const dayName = dayNames[now.getDay()];
+    const dateText = now.toLocaleDateString("bn-BD", {
+      weekday: "long",
+      year: "numeric",
+      month: "short",
+      day: "numeric"
+    });
+
+    const dayNameEl = document.getElementById("dayName");
+    const dateTextEl = document.getElementById("dateText");
+    const listEl = document.getElementById("list");
+    const cardEl = document.getElementById("card");
+
+    dayNameEl.textContent = dayName;
+    dateTextEl.textContent = dateText;
+
+    const todayKey = now.toISOString().slice(0, 10); // YYYY-MM-DD
+
+    function makeId(item, index) {
+      return `${todayKey}-${dayName}-${index}-${item.subject.replace(/\s+/g,"_")}-${item.paper.replace(/\s+/g,"_")}`;
+    }
+
+    function renderOffDay() {
+      cardEl.classList.add("offday-container");
+      listEl.innerHTML = `
+        <div class="offday">
+          <div class="offday-title">Today is off-day</div>
+          <div class="offday-sub">No study routine. Relax, recharge, then come back stronger.</div>
+          <div class="offday-chip">FRIDAY · RESET MODE</div>
+        </div>
+      `;
+    }
+
+    if (dayName === "Friday" || !schedule[dayName]) {
+      renderOffDay();
+    } else {
+      const items = schedule[dayName];
+
+      listEl.innerHTML = "";
+      items.forEach((item, index) => {
+        const id = makeId(item, index);
+        const wrapper = document.createElement("div");
+        wrapper.className = "item";
+        wrapper.dataset.id = id;
+
+        const isDone = localStorage.getItem(id) === "1";
+        if (isDone) wrapper.classList.add("done");
+
+        wrapper.innerHTML = `
+          <div class="left">
+            <input type="checkbox" id="${id}" ${isDone ? "checked" : ""} />
+            <label class="texts" for="${id}">
+              <span class="subject">${item.subject}</span>
+              <span class="paper">${item.paper}</span>
+            </label>
+          </div>
+          <div class="tag">Study · ${index + 1}</div>
+        `;
+
+        const checkbox = wrapper.querySelector("input[type='checkbox']");
+        checkbox.addEventListener("change", () => {
+          const checked = checkbox.checked;
+          if (checked) {
+            wrapper.classList.add("done");
+            localStorage.setItem(id, "1");
+          } else {
+            wrapper.classList.remove("done");
+            localStorage.removeItem(id);
+          }
+        });
+
+        listEl.appendChild(wrapper);
+      });
+    }
+  </script>
+</body>
+</html>
